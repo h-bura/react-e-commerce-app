@@ -6,14 +6,13 @@ function Home() {
     <div className="hero">
       <div className="card text-bg-dark border-0">
         <img
-          src="/assets/images/home/img4.jpg"
+          src="/assets/images/home/img1.jpg"
           className="card-img"
           alt="backround"
-          height="700px"
         />
         <div className="card-img-overlay d-flex flex-column justify-content-center">
-          <div className="container">
-            <h5 className="card-title display-3 fw-bolder mb-0">
+          <div className="container ">
+            <h5 className="card-title display-3  fw-bolder mb-0">
               NEW SEASON ARRIVALS
             </h5>
             <p className="card-text leaf fs-2 ">CHECK OUT ALL THE TRENDS</p>

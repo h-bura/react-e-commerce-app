@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -6,23 +7,31 @@ function Products() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
-  let componentMounted = true;
 
   useEffect(() => {
+    let componentMounted = true;
+
     const getProducts = async () => {
       setLoading(true);
-      const response = await fetch("https://fakestoreapi.com/products");
-      if (componentMounted) {
-        setData(await response.clone().json());
-        setFilter(await response.json());
-        setLoading(false);
-        console.log(filter);
+      try {
+        const response = await fetch("https://fakestoreapi.com/products");
+        const jsonData = await response.json();
+
+        if (componentMounted) {
+          setData(jsonData);
+          setFilter(jsonData);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-      return () => {
-        componentMounted = false;
-      };
     };
+
     getProducts();
+
+    return () => {
+      componentMounted = false;
+    };
   }, []);
   const Loading = () => {
     return (
@@ -50,33 +59,33 @@ function Products() {
   const ShowProducts = () => {
     return (
       <>
-        <div className="buttons d-flex justify-content-center mb-5 pb-5 ">
+        <div className="buttons d-flex flex-column justify-content-center flex mb-5 pb-5 flex-sm-row ">
           <button
-            className="btn btn-outline-dark me-2"
+            className="btn btn-outline-dark me-1"
             onClick={() => setFilter(data)}
           >
             All
           </button>
           <button
-            className="btn btn-outline-dark me-2"
+            className="btn btn-outline-dark me-1"
             onClick={() => filterProduct("men's clothing")}
           >
             Men's Clothing
           </button>
           <button
-            className="btn btn-outline-dark me-2"
+            className="btn btn-outline-dark me-1"
             onClick={() => filterProduct("women's clothing")}
           >
             Women's Clothing
           </button>
           <button
-            className="btn btn-outline-dark me-2"
+            className="btn btn-outline-dark me-1"
             onClick={() => filterProduct("jewelery")}
           >
             Jewelery
           </button>
           <button
-            className="btn btn-outline-dark me-2"
+            className="btn btn-outline-dark me-1"
             onClick={() => filterProduct("electronics")}
           >
             Electronic
@@ -97,9 +106,12 @@ function Products() {
                     {product.title.substring(0, 12)}...
                   </h5>
                   <p className="card-text lead fw-bold">${product.price}</p>
-                  <a href="/#" className="btn btn-outline-dark">
+                  <NavLink
+                    to={`/products/${product.id}`}
+                    className="btn btn-outline-dark"
+                  >
                     Buy Now
-                  </a>
+                  </NavLink>
                 </div>
               </div>
             </div>

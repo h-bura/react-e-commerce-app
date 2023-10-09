@@ -1,5 +1,7 @@
-const cart = [];
-
+const existingUserData = JSON.parse(localStorage.getItem("user")) || {};
+const loggedin = localStorage.getItem("loggedin");
+const cart =
+  existingUserData.cartData && loggedin ? existingUserData.cartData : [];
 const handleCart = (state = cart, action) => {
   const product = action.payload;
   switch (action.type) {

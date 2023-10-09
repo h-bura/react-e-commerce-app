@@ -6,9 +6,16 @@ import { NavLink } from "react-router-dom";
 import { addCart, delCart } from "../redux/action";
 
 const Cart = () => {
+  const existingUserData = JSON.parse(localStorage.getItem("user")) || {};
   const state = useSelector((state) => state.handleCart);
   const dispatch = useDispatch();
+  const updatedUserData = {
+    ...existingUserData,
 
+    cartData: state,
+  };
+
+  localStorage.setItem("user", JSON.stringify(updatedUserData));
   const handleDelete = (item) => {
     dispatch(delCart(item));
   };

@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import { addCart } from "../redux/action";
 
 function Product() {
+  const existingUserData = JSON.parse(localStorage.getItem("user")) || {};
+  const state = useSelector((state) => state.handleCart);
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const addProduct = () => {
-    dispatch(addCart(product));
-  };
+    if (existingUserData.email) {
+      dispatch(addCart(product));
+      const updatedUserData = {
+        ...existingUserData,
+        cartData: [...state, product],
+      };
 
+      localStorage.setItem("user", JSON.stringify(updatedUserData));
+    } else {
+      alert("Please log in...");
+    }
+  };
   useEffect(() => {
     const getProduct = async () => {
       setLoading(true);

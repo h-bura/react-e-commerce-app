@@ -1,6 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+  const existingUserData = JSON.parse(localStorage.getItem("user")) || {};
+
+  const navigate = useNavigate();
+  const [input, setInput] = useState({
+    name: "",
+    email: "",
+    password: "",
+    cartData: [],
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const updatedUserData = {
+      ...existingUserData,
+      name: input.name,
+      email: input.email,
+      password: input.password,
+      cartData: input.cartData,
+    };
+    localStorage.setItem("user", JSON.stringify(updatedUserData));
+
+    navigate("/login");
+  };
+
   return (
     <section
       style={{
@@ -18,11 +43,19 @@ function SignUp() {
                       Sign up
                     </p>
 
-                    <form className="mx-1 mx-md-4">
+                    <form className="mx-1 mx-md-4" onSubmit={handleSubmit}>
                       <div className="d-flex flex-row align-items-center mb-4">
                         <i className="fa fa-user fa-lg me-3 fa-fw"></i>
                         <div className="form-outline flex-fill mb-0">
                           <input
+                            name="name"
+                            value={input.name}
+                            onChange={(e) =>
+                              setInput({
+                                ...input,
+                                [e.target.name]: e.target.value,
+                              })
+                            }
                             type="text"
                             id="form3Example1c"
                             className="form-control"
@@ -35,6 +68,14 @@ function SignUp() {
                         <i className="fa fa-envelope fa-lg me-3 fa-fw"></i>
                         <div className="form-outline flex-fill mb-0">
                           <input
+                            name="email"
+                            value={input.email}
+                            onChange={(e) =>
+                              setInput({
+                                ...input,
+                                [e.target.name]: e.target.value,
+                              })
+                            }
                             type="email"
                             id="form3Example3c"
                             className="form-control"
@@ -47,6 +88,14 @@ function SignUp() {
                         <i className="fa fa-lock fa-lg me-3 fa-fw"></i>
                         <div className="form-outline flex-fill mb-0">
                           <input
+                            name="password"
+                            value={input.password}
+                            onChange={(e) =>
+                              setInput({
+                                ...input,
+                                [e.target.name]: e.target.value,
+                              })
+                            }
                             type="password"
                             id="form3Example4c"
                             className="form-control"
@@ -85,7 +134,7 @@ function SignUp() {
 
                       <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                         <button
-                          type="button"
+                          type="submit"
                           className="btn btn-primary btn-lg"
                         >
                           Register

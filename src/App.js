@@ -10,6 +10,7 @@ import Contact from "./component/Contact";
 import Login from "./component/Login/Login";
 import SignUp from "./component/SignUp";
 import Checkout from "./component/Checkout";
+import Profile from "./component/Profile";
 function App() {
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/products/:id" Component={Product} />
         <Route exact path="/cart" Component={Cart} />
         <Route exact path="/about" Component={About} />
+        <Route exact path="/profile" Component={Profile} />
         <Route exact path="/contact" Component={Contact} />
         <Route exact path="/login" Component={Login} />
         <Route exact path="/register" Component={SignUp} />
